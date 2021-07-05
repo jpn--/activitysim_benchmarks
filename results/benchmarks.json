@@ -1,0 +1,51 @@
+{
+    "mtc1.BenchSuite_MTC.time_component": {
+        "code": "class BenchSuite_MTC:\n    def time_component(self, component_name):\n        return componentwise.run_component(component_name)\n\n    def setup(self, component_name):\n        componentwise.setup_component(\n            component_name,\n            self.model_dir,\n            self.preload_injectables,\n        )\n\n    def setup_cache(self):\n        if workspace.get_dir() is None:\n            from asv.console import log\n            for k,v in os.environ.items():\n                log.error(f\" env {k}: {v}\")\n            raise RuntimeError(\"workspace unavailable\")\n        os.makedirs(os.path.join(self.local_dir, \"models\"), exist_ok=True)\n        get_example(\n            example_name=self.example_name,\n            destination=os.path.join(self.local_dir, \"models\"),\n        )\n        settings_filename = os.path.join(self.model_dir, \"configs\", \"settings.yaml\")\n        with open(settings_filename, 'rt') as f:\n            self.models = yaml.load(f, Loader=yaml.loader.SafeLoader).get('models')\n    \n        last_component_to_benchmark = 0\n        for component_name in self.params:\n            last_component_to_benchmark = max(\n                self.models.index(component_name),\n                last_component_to_benchmark\n            )\n        pre_run_model_list = self.models[:last_component_to_benchmark]\n        modify_yaml(\n            os.path.join(self.model_dir, \"configs\", \"settings.yaml\"),\n            **self.benchmark_settings,\n            models=pre_run_model_list,\n            checkpoints=True,\n            trace_hh_id=None,\n            chunk_training_mode='off',\n        )\n        modify_yaml(\n            os.path.join(self.model_dir, \"configs\", \"network_los.yaml\"),\n            read_skim_cache=True,\n        )\n        componentwise.pre_run(self.model_dir)",
+        "min_run_count": 2,
+        "name": "mtc1.BenchSuite_MTC.time_component",
+        "number": 1,
+        "param_names": [
+            "component_name"
+        ],
+        "params": [
+            [
+                "'compute_accessibility'",
+                "'school_location'",
+                "'workplace_location'",
+                "'auto_ownership_simulate'",
+                "'free_parking'",
+                "'cdap_simulate'",
+                "'mandatory_tour_frequency'",
+                "'mandatory_tour_scheduling'",
+                "'joint_tour_frequency'",
+                "'joint_tour_composition'",
+                "'joint_tour_participation'",
+                "'joint_tour_destination'",
+                "'joint_tour_scheduling'",
+                "'non_mandatory_tour_frequency'",
+                "'non_mandatory_tour_destination'",
+                "'non_mandatory_tour_scheduling'",
+                "'tour_mode_choice_simulate'",
+                "'atwork_subtour_frequency'",
+                "'atwork_subtour_destination'",
+                "'atwork_subtour_scheduling'",
+                "'atwork_subtour_mode_choice'",
+                "'stop_frequency'",
+                "'trip_purpose'",
+                "'trip_destination'",
+                "'trip_purpose_and_destination'",
+                "'trip_scheduling'",
+                "'trip_mode_choice'"
+            ]
+        ],
+        "processes": 2,
+        "sample_time": 0.01,
+        "setup_cache_key": "/Users/jeffnewman/LocalGit/activitysim_benchmarks/benchmarks/mtc1.py:70",
+        "timeout": 36000.0,
+        "type": "time",
+        "unit": "seconds",
+        "version": "4005047ebef5773a6effa39b116e114654f27a7ff83122426bf3606c9f905fd3",
+        "warmup_time": -1
+    },
+    "version": 2
+}
