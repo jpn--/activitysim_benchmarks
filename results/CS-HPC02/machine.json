@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "cpu": "Intel Xeon E5-2699 v4 @ 2.20GHz (44 cores)",
+    "machine": "CS-HPC02",
+    "num_cpu": "88",
+    "os": "Windows 2012ServerR2",
+    "ram": "512GB",
+    "version": 1
+}
