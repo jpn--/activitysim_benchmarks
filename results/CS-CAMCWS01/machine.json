@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "cpu": "Intel Xeon E5-2697 v4 @ 2.30GHz (36 cores)",
+    "machine": "CS-CAMCWS01",
+    "num_cpu": "72",
+    "os": "Windows 10",
+    "ram": "96GB",
+    "version": 1
+}
