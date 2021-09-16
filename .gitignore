@@ -132,3 +132,4 @@ dmypy.json
 asv.conf.json
 benchmarks
 models
+html
